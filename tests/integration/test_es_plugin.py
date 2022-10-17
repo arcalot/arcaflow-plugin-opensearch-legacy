@@ -11,12 +11,11 @@ from arcaflow_plugin_sdk import plugin
 
 
 class StoreIntegrationTest(unittest.TestCase):
-
     def setUp(self) -> None:
         super().setUp()
 
         if os.environ.get("ELASTICSEARCH_URL") == "":
-            os.environ["ELASTICSEARCH_URL"] = 'http://localhost:9200'
+            os.environ["ELASTICSEARCH_URL"] = "http://localhost:9200"
         if os.environ.get("ELASTICSEARCH_USERNAME") == "":
             os.environ["ELASTICSEARCH_USERNAME"] = "elastic"
         if os.environ.get("ELASTICSEARCH_PASSWORD") == "":
@@ -26,7 +25,12 @@ class StoreIntegrationTest(unittest.TestCase):
         exitcode = plugin.run(
             s=plugin.build_schema(es_plugin.store),
             argv=[
-                "", "-f", StoreIntegrationTest.build_fixture_file_path("empty_data.yaml")],
+                "",
+                "-f",
+                StoreIntegrationTest.build_fixture_file_path(
+                    "empty_data.yaml"
+                ),
+            ],
         )
 
         self.assertEqual(exitcode, 0)
@@ -38,7 +42,12 @@ class StoreIntegrationTest(unittest.TestCase):
         exitcode = plugin.run(
             s=plugin.build_schema(es_plugin.store),
             argv=[
-                "", "-f", StoreIntegrationTest.build_fixture_file_path("simple_data.yaml")],
+                "",
+                "-f",
+                StoreIntegrationTest.build_fixture_file_path(
+                    "simple_data.yaml"
+                ),
+            ],
         )
 
         self.assertEqual(exitcode, 0)
@@ -53,20 +62,25 @@ class StoreIntegrationTest(unittest.TestCase):
         exitcode = plugin.run(
             s=plugin.build_schema(es_plugin.store),
             argv=[
-                "", "-f", StoreIntegrationTest.build_fixture_file_path("nested_data.yaml")],
+                "",
+                "-f",
+                StoreIntegrationTest.build_fixture_file_path(
+                    "nested_data.yaml"
+                ),
+            ],
         )
 
         self.assertEqual(exitcode, 0)
 
         expectedData = {
-            'keyNo3': 'Mambo No 3',
-            'nestedKey': {
-                'deeper-nested-1': {
-                    'deeper-nested-key': 1,
-                    'another-key-deeply-nested': 'here I am'
+            "keyNo3": "Mambo No 3",
+            "nestedKey": {
+                "deeper-nested-1": {
+                    "deeper-nested-key": 1,
+                    "another-key-deeply-nested": "here I am",
                 },
-                'deeper-nested-2': 'some value'
-            }
+                "deeper-nested-2": "some value",
+            },
         }
 
         self.assertStoredData(expectedData, "nested-data")
@@ -78,10 +92,11 @@ class StoreIntegrationTest(unittest.TestCase):
             self.assertIn("hits", actualData)
             self.assertIn("hits", actualData["hits"])
             if len(actualData["hits"]["hits"]) == 0:
-                time.sleep(i+1)
+                time.sleep(i + 1)
                 continue
             self.assertDictEqual(
-                expectedData, actualData["hits"]["hits"][0]["_source"])
+                expectedData, actualData["hits"]["hits"][0]["_source"]
+            )
             return
         self.fail(f"No documents found in Elasticsearch for index {index}")
 
@@ -95,12 +110,14 @@ class StoreIntegrationTest(unittest.TestCase):
         url, user, password = es_plugin.getEnvironmentVariables(
             "ELASTICSEARCH_URL",
             "ELASTICSEARCH_USERNAME",
-            "ELASTICSEARCH_PASSWORD"
+            "ELASTICSEARCH_PASSWORD",
         )
         elastiUrl = f"{url}/{sample}/_search"
-        with requests.get(elastiUrl, auth=HTTPBasicAuth(user, password)) as resp:
+        with requests.get(
+            elastiUrl, auth=HTTPBasicAuth(user, password)
+        ) as resp:
             return json.loads(resp.text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
