@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  IMAGE_NAME: arcaflow-plugin-uperf
+  IMAGE_NAME: arcaflow-plugin-elasticsearch
   IMAGE_TAG: '0.1.0'
   GITHUB_USERNAME: ${{ github.actor }}
   GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
