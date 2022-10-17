@@ -16,18 +16,24 @@ class StoreTest(unittest.TestCase):
                 index="another-index",
                 data={
                     "key1": "interesting value",
-                    "key2": "next value", }
+                    "key2": "next value",
+                },
             )
         )
 
         plugin.test_object_serialization(
-            es_plugin.SuccessOutput("successfully uploaded document for index another-index")
+            es_plugin.SuccessOutput(
+                "successfully uploaded document for index another-index"
+            )
         )
 
         plugin.test_object_serialization(
             es_plugin.ErrorOutput(
-                'Failed to create Elasticsearch document: BadRequestError(400, \'mapper_parsing_exception\',\'failed to parse\')')
+                "Failed to create Elasticsearch document: BadRequestError(400,"
+                " 'mapper_parsing_exception','failed to parse')"
+            )
         )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
