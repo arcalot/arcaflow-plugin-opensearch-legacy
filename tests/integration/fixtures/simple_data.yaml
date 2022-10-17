@@ -1,0 +1,8 @@
+url: ELASTICSEARCH_URL
+username: ELASTICSEARCH_USERNAME
+password: ELASTICSEARCH_PASSWORD
+index: simple-data
+data: {
+  "keyNo1": "xXx",
+  "keyNo2": "Mambo No 5",
+}

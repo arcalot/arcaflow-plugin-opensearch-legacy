@@ -1,0 +1,25 @@
+FROM quay.io/centos/centos:stream8 as arcaflow-elasticsearch-plugin
+
+RUN dnf -y module install python39 && dnf -y install python39 python39-pip git
+RUN mkdir /app
+
+COPY es_plugin.py /app
+COPY es_schema.py /app
+COPY requirements.txt /app
+WORKDIR /app
+
+RUN pip3 install -r requirements.txt
+
+FROM arcaflow-elasticsearch-plugin as integration-test
+
+COPY tests/integration/test_es_plugin.py /app
+COPY tests/integration/fixtures /app/fixtures
+
+ENTRYPOINT ["python3", "-m", "unittest", "test_es_plugin.py"]
+
+LABEL org.opencontainers.image.source="https://github.com/arcalot/arcaflow-plugin-elasticsearch"
+LABEL org.opencontainers.image.licenses="Apache-2.0+GPL-2.0-only"
+LABEL org.opencontainers.image.vendor="Arcalot project"
+LABEL org.opencontainers.image.authors="Arcalot contributors"
+LABEL org.opencontainers.image.title="Python Elasticsearch Plugin"
+LABEL io.github.arcalot.arcaflow.plugin.version="1"

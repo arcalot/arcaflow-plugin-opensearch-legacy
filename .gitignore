@@ -1,5 +1,6 @@
 .idea
 *.iml
+.vscode/
 
 #From https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 

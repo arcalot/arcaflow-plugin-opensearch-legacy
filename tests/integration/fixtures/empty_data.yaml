@@ -1,0 +1,5 @@
+url: ELASTICSEARCH_URL
+username: ELASTICSEARCH_USERNAME
+password: ELASTICSEARCH_PASSWORD
+index: empty-data
+data: {}

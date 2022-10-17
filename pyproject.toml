@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "arcaflow-plugin-elasticsearch"
+version = "0.0.0"
+description = "arcaflow plugin for elasticsearch"
+authors = ["Arcaflow Contributors"]
+license = "Apache-2.0+GPL-2.0-only"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+arcaflow-plugin-sdk = "^0.7.0"
+elasticsearch = "^8.4.3"
+
+[tool.poetry.dev-dependencies]
+pycodestyle = "^2.9.1"
+black = "^22.10.0"
+pydocstyle = "^6.1.1"
+docformatter = "^1.5.0"
+autoflake = "^1.7.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
