@@ -10,24 +10,7 @@ class StoreDocumentRequest:
     url: str = field(
         metadata={
             "name": "url",
-            "description": """Name of the environment variable containing """
-            """the URL for the Elasticsearch instance.""",
-        }
-    )
-
-    username: Annotated[str, validation.min(1)] = field(
-        metadata={
-            "name": "username",
-            "description": """Name of the environment variable containing """
-            """an authorized user for the given Elasticsearch instance.""",
-        }
-    )
-
-    password: str = field(
-        metadata={
-            "name": "password",
-            "description": """Name of the environment variable containing """
-            """the password for the given user.""",
+            "description": """The URL for the Elasticsearch instance.""",
         }
     )
 
@@ -44,6 +27,23 @@ class StoreDocumentRequest:
             "name": "data",
             "description": """Data to upload to your Elasticsearch """
             """index.""",
+        }
+    )
+
+    username: Annotated[str, validation.min(1)] = field(
+        default=None,
+        metadata={
+            "name": "username",
+            "description": """A username for"""
+            """an authorized user for the given Elasticsearch instance.""",
+        }
+    )
+
+    password: str = field(
+        default=None,
+        metadata={
+            "name": "password",
+            "description": """The password for the given user.""",
         }
     )
 

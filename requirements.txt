@@ -5,7 +5,7 @@ cbor2==5.4.3; python_version >= "3.9"
 certifi==2022.9.24; python_version >= "3.6" and python_version < "4"
 constantly==15.1.0; python_full_version >= "3.7.1" and python_version >= "3.9"
 elastic-transport==8.4.0; python_version >= "3.6" and python_version < "4"
-elasticsearch==8.4.3; python_version >= "3.6" and python_version < "4"
+opensearch-py>=2.0.0
 hyperlink==21.0.0; python_full_version >= "3.7.1" and python_version >= "3.9"
 idna==3.4; python_full_version >= "3.7.1" and python_version >= "3.9"
 incremental==22.10.0; python_full_version >= "3.7.1" and python_version >= "3.9"

@@ -4,24 +4,10 @@ import os
 import sys
 import typing
 
-from elasticsearch import Elasticsearch
+from opensearchpy import OpenSearch
 
 from arcaflow_plugin_sdk import plugin
 from es_schema import ErrorOutput, SuccessOutput, StoreDocumentRequest
-
-
-def getEnvironmentVariables(
-    envUrl: str, envUser: str, envPassword: str
-) -> tuple[str, str, str]:
-    """
-    :return: a tuple [url, user, password] containing the extracted values
-    from the environment variables.
-    """
-    return (
-        os.environ.get(envUrl),
-        os.environ.get(envUser),
-        os.environ.get(envPassword),
-    )
 
 
 @plugin.step(
@@ -38,15 +24,13 @@ def store(
         structure
     """
 
-    url, user, password = getEnvironmentVariables(
-        params.url, params.username, params.password
-    )
-
     try:
-        es = Elasticsearch(hosts=url, basic_auth=[user, password])
-        resp = es.index(index=params.index, document=params.data)
-        if resp.meta.status != 201:
-            raise Exception(f"response status: {resp.meta.status}")
+        if params.username:
+            es = OpenSearch(hosts=params.url, basic_auth=[params.username, params.password])
+        # Support for servers that don't require authentication
+        else:
+            es = OpenSearch(hosts=params.url)
+        resp = es.index(index=params.index, body=params.data)
 
         return "success", SuccessOutput(
             f"successfully uploaded document for index {params.index}"
