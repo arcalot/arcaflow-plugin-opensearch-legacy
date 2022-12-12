@@ -6,12 +6,12 @@ A plugin for loading data into an OpenSearch-compatible instance.
 
 During the development of this plugin it is useful to start a local Elasticsearch via:
 ```bash
-docker-compose -f docker-compose-dev.yml up -d
+docker-compose -f docker-compose-dev.yaml up -d
 ```
 
 and stop it again via:
 ```bash
-docker-compose -f docker-compose-dev.yml down -v
+docker-compose -f docker-compose-dev.yaml down -v
 ```
 
 ## Testing
