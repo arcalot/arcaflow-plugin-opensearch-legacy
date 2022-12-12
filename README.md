@@ -1,6 +1,6 @@
-# Arcaflow Elasticsearch
+# Arcaflow OpenSearch
 
-A plugin for loading data into an Elasticsearch instance.
+A plugin for loading data into an OpenSearch-compatible instance.
 
 ## Development
 
@@ -25,7 +25,7 @@ The tests of this plugin are split up into `unit` and `integration` tests locate
 Run all unit tests via:
 ```bash
 # Run all unit tests
-python -m unittest tests.unit.test_es_plugin
+python -m unittest tests.unit.test_opensearch_plugin
 ```
 
 ### Integration Tests
@@ -34,7 +34,7 @@ Running all integration tests can be run either
 - using a running a local Elasticsearch as described in [Development](#development) and then execute the tests via
 ```bash
 # Run all integration tests
-python -m unittest tests.integration.test_es_plugin
+python -m unittest tests.integration.test_opensearch_plugin
 ```
 
 - using the [docker-compose-integration.yml](./docker-compose-integration.yml) and run

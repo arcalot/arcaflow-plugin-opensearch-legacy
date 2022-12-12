@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "arcaflow-plugin-elasticsearch"
+name = "arcaflow-plugin-opensearch"
 version = "0.0.0"
-description = "arcaflow plugin for elasticsearch"
+description = "arcaflow plugin for opensearch"
 authors = ["Arcaflow Contributors"]
 license = "Apache-2.0+GPL-2.0-only"
 

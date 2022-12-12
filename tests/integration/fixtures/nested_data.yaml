@@ -1,6 +1,6 @@
-url: ELASTICSEARCH_URL
-username: ELASTICSEARCH_USERNAME
-password: ELASTICSEARCH_PASSWORD
+url: OPENSEARCH_URL
+username: OPENSEARCH_USERNAME
+password: OPENSEARCH_PASSWORD
 index: nested-data
 data: {
   "keyNo3": "Mambo No 3",
