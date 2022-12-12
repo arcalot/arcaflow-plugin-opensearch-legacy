@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import sys
 import typing
 
@@ -19,10 +18,12 @@ from opensearch_schema import ErrorOutput, SuccessOutput, StoreDocumentRequest
 def store(
     params: StoreDocumentRequest,
 ) -> typing.Tuple[str, typing.Union[SuccessOutput, ErrorOutput]]:
-    
+
     try:
         if params.username:
-            os = OpenSearch(hosts=params.url, basic_auth=[params.username, params.password])
+            os = OpenSearch(
+                hosts=params.url, basic_auth=[params.username, params.password]
+            )
         # Support for servers that don't require authentication
         else:
             os = OpenSearch(hosts=params.url)

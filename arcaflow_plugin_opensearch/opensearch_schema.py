@@ -5,7 +5,7 @@ from arcaflow_plugin_sdk import schema, validation
 
 @dataclass
 class StoreDocumentRequest:
-    
+
     url: typing.Annotated[
         str,
         schema.name("url"),
@@ -44,11 +44,11 @@ class StoreDocumentRequest:
 
 @dataclass
 class SuccessOutput:
-    
+
     message: str
 
 
 @dataclass
 class ErrorOutput:
-    
+
     error: str
