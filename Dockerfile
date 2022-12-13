@@ -22,9 +22,9 @@ COPY tests /app/tests
 ENV PYTHONPATH /app/${package}
 
 RUN mkdir /htmlcov
-RUN pip3 install coverage
-RUN python3 -m coverage run tests/unit/test_opensearch_plugin.py
-RUN python3 -m coverage html -d /htmlcov --omit=/usr/local/*
+RUN python3.9 -m pip install coverage
+RUN python3.9 -m coverage run tests/unit/test_opensearch_plugin.py
+RUN python3.9 -m coverage html -d /htmlcov --omit=/usr/local/*
 
 # final image
 FROM quay.io/centos/centos:stream8

@@ -9,7 +9,7 @@ services:
       - xpack.security.enabled=false
       # - ELASTIC_USERNAME=elastic
       # - ELASTIC_PASSWORD=topsecret
-      - ES_JAVA_OPTS=-Xms300m -Xmx300m
+      - ES_JAVA_OPTS=-Xms200m -Xmx200m
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
