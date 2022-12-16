@@ -41,6 +41,16 @@ class StoreDocumentRequest:
         schema.description("The password for the given user."),
     ] = None
 
+    split_arrays: typing.Annotated[
+        typing.Optional[bool],
+        schema.name("split arrays"),
+        schema.description(
+            "If True, first-level arrays will be split into and indexed as "
+            "separate documents, and nested arrays will be converted into "
+            "dictionaries with key indexing from 0."
+        ),
+    ] = False
+
 
 @dataclass
 class SuccessOutput:

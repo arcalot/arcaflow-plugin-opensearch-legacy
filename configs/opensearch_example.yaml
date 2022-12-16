@@ -3,7 +3,12 @@ url: "172.17.0.1"
 username: "elastic"
 password: "topsecret"
 index: "myindex"
+split_arrays: True
 data:
   key1: "interesting value"
-  key2: "next value"
+  key2:
+    key3: "next value"
+  key4:
+    - "foo"
+    - "bar"
 
