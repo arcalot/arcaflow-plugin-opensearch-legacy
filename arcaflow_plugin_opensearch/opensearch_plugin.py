@@ -21,13 +21,13 @@ def store(
 
     try:
         if params.username:
-            os = OpenSearch(
+            opensearch = OpenSearch(
                 hosts=params.url, basic_auth=[params.username, params.password]
             )
         # Support for servers that don't require authentication
         else:
-            os = OpenSearch(hosts=params.url)
-        resp = os.index(index=params.index, body=params.data)
+            opensearch = OpenSearch(hosts=params.url)
+        resp = opensearch.index(index=params.index, body=params.data)
         print(f"==>> resp is {resp}")
         # if resp.meta.status != 201:
         #     raise Exception(f"response status: {resp.meta.status}")
