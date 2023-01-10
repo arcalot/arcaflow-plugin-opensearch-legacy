@@ -28,12 +28,11 @@ def store(
         else:
             opensearch = OpenSearch(hosts=params.url)
         resp = opensearch.index(index=params.index, body=params.data)
-        print(f"==>> resp is {resp}")
-        # if resp.meta.status != 201:
-        #     raise Exception(f"response status: {resp.meta.status}")
+        if resp["result"] != "created":
+            raise Exception(f"Document status: {resp['_shards']}")
 
         return "success", SuccessOutput(
-            f"successfully uploaded document for index {params.index}"
+            f"Successfully uploaded document for index {params.index}"
         )
     except Exception as ex:
         return "error", ErrorOutput(
