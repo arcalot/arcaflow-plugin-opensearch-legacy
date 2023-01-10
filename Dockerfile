@@ -1,6 +1,8 @@
+ARG package=arcaflow_plugin_opensearch
+
 # build poetry
 FROM quay.io/centos/centos:stream8 as poetry
-
+ARG package
 RUN dnf -y module install python39 && dnf -y install python39 python39-pip
 
 WORKDIR /app
@@ -12,8 +14,6 @@ RUN python3.9 -m pip install poetry \
  && python3.9 -m poetry config virtualenvs.create false \
  && python3.9 -m poetry install --without dev --no-root \
  && python3.9 -m poetry export -f requirements.txt --output requirements.txt --without-hashes
-
-ENV package arcaflow_plugin_opensearch
 
 # run tests
 COPY ${package}/ /app/${package}
@@ -28,7 +28,7 @@ RUN python3.9 -m coverage html -d /htmlcov --omit=/usr/local/*
 
 # final image
 FROM quay.io/centos/centos:stream8
-ENV package arcaflow_plugin_opensearch
+ARG package
 
 RUN dnf -y module install python39 && dnf -y install python39 python39-pip
 
