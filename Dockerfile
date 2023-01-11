@@ -1,34 +1,55 @@
-FROM quay.io/centos/centos:stream8 as arcaflow-elasticsearch-plugin
+ARG package=arcaflow_plugin_opensearch
 
-RUN dnf -y module install python39 && dnf -y install python39 python39-pip git
-RUN mkdir /app
+# build poetry
+FROM quay.io/centos/centos:stream8 as poetry
+ARG package
+RUN dnf -y module install python39 && dnf -y install python39 python39-pip
 
-ADD https://raw.githubusercontent.com/arcalot/arcaflow-plugins/main/LICENSE /app
-COPY es_plugin.py /app
-COPY es_schema.py /app
-COPY requirements.txt /app
 WORKDIR /app
 
-RUN pip3 install -r requirements.txt
+COPY poetry.lock /app/
+COPY pyproject.toml /app/
 
-# Test stage
-FROM arcaflow-elasticsearch-plugin as test
+RUN python3.9 -m pip install poetry \
+ && python3.9 -m poetry config virtualenvs.create false \
+ && python3.9 -m poetry install --without dev --no-root \
+ && python3.9 -m poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-COPY tests/unit/test_es_plugin.py /app
+# run tests
+COPY ${package}/ /app/${package}
+COPY tests /app/tests
 
-RUN pip3 install coverage
-RUN python3 -m coverage run test_es_plugin.py
+ENV PYTHONPATH /app/${package}
 
 RUN mkdir /htmlcov
-RUN python3 -m coverage html -d /htmlcov
+RUN python3.9 -m pip install coverage
+RUN python3.9 -m coverage run tests/unit/test_opensearch_plugin.py
+RUN python3.9 -m coverage html -d /htmlcov --omit=/usr/local/*
 
-FROM arcaflow-elasticsearch-plugin
-ENTRYPOINT ["python3", "/app/es_plugin.py"]
+# final image
+FROM quay.io/centos/centos:stream8
+ARG package
+
+RUN dnf -y module install python39 && dnf -y install python39 python39-pip
+
+WORKDIR /app
+
+COPY --from=poetry /app/requirements.txt /app/
+COPY --from=poetry /htmlcov /htmlcov/
+COPY LICENSE /app/
+COPY README.md /app/
+COPY ${package}/ /app/${package}
+
+RUN python3.9 -m pip install -r requirements.txt
+
+WORKDIR /app/${package}
+
+ENTRYPOINT ["python3.9", "opensearch_plugin.py"]
 CMD []
 
-LABEL org.opencontainers.image.source="https://github.com/arcalot/arcaflow-plugin-elasticsearch"
+LABEL org.opencontainers.image.source="https://github.com/arcalot/arcaflow-plugin-opensearch"
 LABEL org.opencontainers.image.licenses="Apache-2.0+GPL-2.0-only"
 LABEL org.opencontainers.image.vendor="Arcalot project"
 LABEL org.opencontainers.image.authors="Arcalot contributors"
-LABEL org.opencontainers.image.title="Python Elasticsearch Plugin"
+LABEL org.opencontainers.image.title="OpenSearch Arcaflow Plugin"
 LABEL io.github.arcalot.arcaflow.plugin.version="1"

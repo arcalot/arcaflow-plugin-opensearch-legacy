@@ -6,38 +6,32 @@ services:
     container_name: elasticsearch.integration
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=true
+      - xpack.security.enabled=false
       - ELASTIC_PASSWORD=topsecret
+      - ES_JAVA_OPTS=-Xms200m -Xmx200m
     healthcheck:
       test: curl -s http://localhost:9200 >/dev/null || exit 1
       interval: 10s
       timeout: 10s
       retries: 5
       start_period: 5s
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-      - 9300:9300
 
   backend:
-    image: arcaflow-elasticsearch-plugin-integration-test
+    image: arcaflow-opensearch-plugin-integration-test
     build: 
-      dockerfile: ./Dockerfile.integration
+      dockerfile: ./Dockerfile
       context: ./
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch.integration:9200
       - ELASTICSEARCH_USERNAME=elastic
       - ELASTICSEARCH_PASSWORD=topsecret
+    command: "-f /configs/opensearch_example.yaml"
+    volumes:
+      - ./configs:/configs:Z
     depends_on: 
       elasticsearch-integration: 
         condition: service_healthy

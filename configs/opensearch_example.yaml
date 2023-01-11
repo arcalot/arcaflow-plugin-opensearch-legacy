@@ -1,0 +1,9 @@
+# Default Docker network IP
+url: "172.17.0.1"
+username: "elastic"
+password: "topsecret"
+index: "myindex"
+data:
+  key1: "interesting value"
+  key2: "next value"
+
